@@ -8,14 +8,16 @@ const Auth = ({ children }) => {
     const router = useRouter();
 
     if (currentUser === undefined) {
-        return <div>Loading</div>
+        return <div>Loading</div>;
     }
 
-    if (currentUser === null) {
-        router.push('/login');
+    if (currentUser) {
+        return children;
     }
 
-    return children;
+    router.push('/login');
+
+    return null;
 };
 
 export default Auth;
