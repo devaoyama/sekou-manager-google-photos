@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import firebase, { db } from '../utils/Firebase';
+import {Backdrop, CircularProgress} from "@material-ui/core";
 
 type AuthContextProps = {
     currentUser: firebase.User | null | undefined
@@ -27,6 +28,17 @@ const AuthProvider = ({ children }) => {
             })
         ;
     }, [currentUser]);
+
+    if (currentUser === undefined) {
+        return (
+            <React.Fragment>
+                <Backdrop open={true} onClick={() => {}}>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+                {children}
+            </React.Fragment>
+        );
+    }
 
     return (
         <AuthContext.Provider value={{ currentUser: currentUser, accessToken }}>

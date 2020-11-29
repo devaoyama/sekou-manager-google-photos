@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext, useEffect} from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "../contexts/Auth";
 
@@ -7,15 +7,15 @@ const Auth = ({ children }) => {
 
     const router = useRouter();
 
-    if (currentUser === undefined) {
-        return <div>Loading</div>;
-    }
+    useEffect(() => {
+        if (currentUser === null) {
+            router.push('/login');
+        }
+    }, [currentUser])
 
     if (currentUser) {
         return children;
     }
-
-    router.push('/login');
 
     return null;
 };
