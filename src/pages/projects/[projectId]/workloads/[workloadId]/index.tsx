@@ -16,6 +16,7 @@ import { db } from "../../../../../utils/Firebase";
 import { AuthContext } from "../../../../../contexts/Auth";
 import {getRequest} from "../../../../../utils/GooglePhotosApi";
 import LoadingOverlay from "../../../../../components/LoadingOverlay";
+import DeleteWorkloadButton from "../../../../../components/DeleteWorkloadButton";
 
 const useStyles = makeStyles({
     body: {
@@ -30,6 +31,8 @@ const Index = () => {
 
     const [image, setImage] = useState(null);
 
+    const [loading, setLoading] = useState(false);
+
     const router = useRouter();
     const { projectId, workloadId } = router.query;
 
@@ -37,6 +40,7 @@ const Index = () => {
 
     useEffect(() => {
         if (!accessToken || !projectId || !workloadId) return;
+        setLoading(true);
         getRequest('mediaItems/' + workloadId, accessToken)
             .then(response => {
                 setImage(response.baseUrl);
@@ -51,9 +55,10 @@ const Index = () => {
                 setWorkload(doc.data());
             })
         ;
+        setLoading(false);
     }, [router.query, accessToken]);
 
-    if (!workload || !image) {
+    if (loading || !image) {
         return (
             <LoadingOverlay />
         );
@@ -67,16 +72,16 @@ const Index = () => {
                         <Typography variant="h4" component="h3">施工内容</Typography>
                     </Grid>
                     <Grid>
-                        削除ボタン
+                        <DeleteWorkloadButton projectId={projectId} workloadId={workloadId} setLoading={setLoading} />
                     </Grid>
                     <Card>
                         <CardHeader title={workload && workload.title} />
                         <CardMedia title="施工画像">
                             {image && <Image src={image} width={1920} height={1024} />}
                         </CardMedia>
-                        <CardContent title="コメント">
+                        <CardContent>
                             <Typography variant="h5" component="h4" className={classes.body}>
-                                {workload && workload.comment}
+                                コメント
                             </Typography>
                             <Typography variant="body1" className={classes.body}>
                                 {workload && workload.comment}

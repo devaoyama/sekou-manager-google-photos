@@ -6,6 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import Auth from "../../../components/Auth";
 import WorkloadsList from "../../../components/WorkloadsList";
+import DeleteProjectListItem from "../../../components/DeleteProjectListItem";
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -36,6 +37,7 @@ const Index = () => {
                         </ListItemText>
                     </ListItem>
                 </Link>
+                <DeleteProjectListItem projectId={projectId} />
             </List>
         </div>
     );
