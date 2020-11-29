@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import firebase, { db } from '../utils/Firebase';
-import {Backdrop, CircularProgress} from "@material-ui/core";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 type AuthContextProps = {
     currentUser: firebase.User | null | undefined
@@ -32,9 +32,7 @@ const AuthProvider = ({ children }) => {
     if (currentUser === undefined) {
         return (
             <React.Fragment>
-                <Backdrop open={true} onClick={() => {}}>
-                    <CircularProgress color="inherit" />
-                </Backdrop>
+                <LoadingOverlay />
                 {children}
             </React.Fragment>
         );

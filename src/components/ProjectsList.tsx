@@ -3,11 +3,12 @@ import { Grid } from "@material-ui/core";
 import { AuthContext } from "../contexts/Auth";
 import ProjectCard from "./ProjectCard";
 import { getRequest } from "../utils/GooglePhotosApi";
+import LoadingOverlay from "./LoadingOverlay";
 
 const ProjectsList = () => {
     const { accessToken } = useContext(AuthContext);
 
-    const [albums, setAlbums] = useState([]);
+    const [albums, setAlbums] = useState(undefined);
 
     useEffect(() => {
         if (!accessToken) return;
@@ -15,15 +16,19 @@ const ProjectsList = () => {
         getRequest('albums', accessToken)
             .then(response => {
                 const { albums } = response;
-                setAlbums(albums);
+                setAlbums(albums || []);
             })
         ;
     }, [accessToken]);
 
+    if (albums === undefined) {
+        return <LoadingOverlay />
+    }
+
     return (
         <React.Fragment>
             <Grid container spacing={3}>
-                {albums && albums.map(album => {
+                {albums.map(album => {
                     return (
                         <Grid item md={4} sm={6} xs={12} key={album.id}>
                             <ProjectCard album={album} />

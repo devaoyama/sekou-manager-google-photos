@@ -4,11 +4,12 @@ import { Grid } from "@material-ui/core";
 import { postRequest } from "../utils/GooglePhotosApi";
 import { AuthContext } from "../contexts/Auth";
 import WorkloadCard from "./WorkloadCard";
+import LoadingOverlay from "./LoadingOverlay";
 
 const WorkloadsList = () => {
     const { accessToken } = useContext(AuthContext);
 
-    const [workloads, setWorkLoads] = useState([]);
+    const [workloads, setWorkLoads] = useState(undefined);
 
     const router = useRouter();
     const { projectId } = router.query;
@@ -22,12 +23,14 @@ const WorkloadsList = () => {
         postRequest('mediaItems:search', accessToken, JSON.stringify(body))
             .then(response => {
                 const { mediaItems } = response;
-                if (mediaItems) {
-                    setWorkLoads(mediaItems);
-                }
+                setWorkLoads(mediaItems || []);
             })
         ;
     }, [projectId, accessToken]);
+
+    if (workloads === undefined) {
+        return <LoadingOverlay />
+    }
 
     return (
         <React.Fragment>

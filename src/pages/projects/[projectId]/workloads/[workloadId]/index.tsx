@@ -2,12 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import {
-    Backdrop,
     Card,
     CardContent,
     CardHeader,
     CardMedia,
-    CircularProgress,
     Container,
     Grid,
     Typography
@@ -17,6 +15,7 @@ import Auth from "../../../../../components/Auth";
 import { db } from "../../../../../utils/Firebase";
 import { AuthContext } from "../../../../../contexts/Auth";
 import {getRequest} from "../../../../../utils/GooglePhotosApi";
+import LoadingOverlay from "../../../../../components/LoadingOverlay";
 
 const useStyles = makeStyles({
     body: {
@@ -56,9 +55,7 @@ const Index = () => {
 
     if (!workload || !image) {
         return (
-            <Backdrop open={true} onClick={() => {}}>
-                <CircularProgress color="inherit" />
-            </Backdrop>
+            <LoadingOverlay />
         );
     }
 

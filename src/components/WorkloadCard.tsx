@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Card, CardActionArea, CardContent, CardMedia, makeStyles, Typography } from "@material-ui/core";
 import { db } from "../utils/Firebase";
 
-
 const useStyles = makeStyles({
     root: {
         maxWidth: 400,
@@ -56,7 +55,7 @@ const WorkloadCard: React.FC<TProps> = ({ mediaItem, projectId }) => {
                         </CardMedia>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
-                                {workload && workload.title}
+                                {workload ? workload.title : 'タイトルなし'}
                             </Typography>
                         </CardContent>
                     </CardActionArea>
