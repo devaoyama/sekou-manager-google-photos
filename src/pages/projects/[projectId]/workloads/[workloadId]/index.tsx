@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import {
+    Button,
     Card,
     CardContent,
     CardHeader,
@@ -17,6 +18,7 @@ import { AuthContext } from "../../../../../contexts/Auth";
 import {getRequest} from "../../../../../utils/GooglePhotosApi";
 import LoadingOverlay from "../../../../../components/LoadingOverlay";
 import DeleteWorkloadButton from "../../../../../components/DeleteWorkloadButton";
+import Link from "next/link";
 
 const useStyles = makeStyles({
     body: {
@@ -72,10 +74,18 @@ const Index = () => {
                         <Typography variant="h4" component="h3">施工内容</Typography>
                     </Grid>
                     <Grid>
+                        <Link
+                            href="/projects/[projectId]/workloads/[workloadId]/edit"
+                            as={`/projects/${projectId}/workloads/${workloadId}/edit`}
+                        >
+                            <Button color="primary">
+                                編集
+                            </Button>
+                        </Link>
                         <DeleteWorkloadButton projectId={projectId} workloadId={workloadId} setLoading={setLoading} />
                     </Grid>
                     <Card>
-                        <CardHeader title={workload && workload.title} />
+                        <CardHeader title={workload ? workload.title : "タイトルなし"} />
                         <CardMedia title="施工画像">
                             {image && <Image src={image} width={1920} height={1024} />}
                         </CardMedia>
