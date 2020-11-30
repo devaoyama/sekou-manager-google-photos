@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import { Container, Drawer, Fab, List, ListItem, ListItemIcon, ListItemText, makeStyles } from "@material-ui/core";
+import NextLink from "next/link";
+import {
+    Breadcrumbs,
+    Container,
+    Drawer,
+    Fab, Link,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    makeStyles, Typography
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import Auth from "../../../components/Auth";
@@ -13,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
+    },
+    breadCrumbs: {
+        marginBottom: theme.spacing(3),
     },
 }));
 
@@ -27,7 +40,7 @@ const Index = () => {
     const list = () => (
         <div>
             <List>
-                <Link href="/projects/[projectId]/workloads/create" as={`/projects/${projectId}/workloads/create`}>
+                <NextLink href="/projects/[projectId]/workloads/create" as={`/projects/${projectId}/workloads/create`}>
                     <ListItem button>
                         <ListItemIcon>
                             <AddIcon />
@@ -36,8 +49,8 @@ const Index = () => {
                             施工内容追加
                         </ListItemText>
                     </ListItem>
-                </Link>
-                <Link href="/projects/[projectId]/edit" as={`/projects/${projectId}/edit`}>
+                </NextLink>
+                <NextLink href="/projects/[projectId]/edit" as={`/projects/${projectId}/edit`}>
                     <ListItem button>
                         <ListItemIcon>
                             <AddIcon />
@@ -46,7 +59,7 @@ const Index = () => {
                             プロジェクト編集
                         </ListItemText>
                     </ListItem>
-                </Link>
+                </NextLink>
                 <DeleteProjectListItem projectId={projectId} />
             </List>
         </div>
@@ -55,6 +68,14 @@ const Index = () => {
     return (
         <Auth>
             <Container maxWidth="md">
+                <Breadcrumbs aria-label="breadcrumb" className={classes.breadCrumbs}>
+                    <NextLink href="/">
+                        <Link color="inherit" href="">
+                            工事一覧
+                        </Link>
+                    </NextLink>
+                    <Typography color="textPrimary">施工一覧</Typography>
+                </Breadcrumbs>
                 <WorkloadsList />
             </Container>
             <Fab color="primary" className={classes.fab} onClick={() => setOpen(true)}>
