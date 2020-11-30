@@ -8,6 +8,7 @@ import Auth from "../../../../components/Auth";
 import { AuthContext } from "../../../../contexts/Auth";
 import { postRequest, uploadFile } from "../../../../utils/GooglePhotosApi";
 import { db } from "../../../../utils/Firebase";
+import checkImageAspect from "../../../../utils/checkImageAspect";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -44,6 +45,15 @@ const Create = () => {
             setError('images', {
                 type: 'manual',
                 message: 'JPEGファイル以外はアップロードできません'
+            });
+            return;
+        }
+
+        const result = await checkImageAspect(images[0]);
+        if (result.width * 3 / 4 !== result.height) {
+            setError('images', {
+                type: 'manual',
+                message: '画像のサイズが正しくありません。縦横比が4:3になるように撮影してください'
             });
             return;
         }
@@ -105,7 +115,7 @@ const Create = () => {
                         label="コメント"
                         inputRef={register({
                             required: { value: true, message: "空であってはいけません" },
-                            maxLength: { value: 40, message: "40文字以内で入力してください" }
+                            maxLength: { value: 1000, message: "1000文字以内で入力してください" }
                         })}
                         fullWidth
                         margin="normal"
