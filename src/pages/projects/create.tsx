@@ -46,7 +46,7 @@ const Create = () => {
             }
         };
         const res = await postRequest('albums', accessToken, JSON.stringify(body));
-        const data = { title, type, builder, start, end, albumId: res.id, user: currentUser.uid };
+        const data = { title, type, builder, start, end, albumId: res.id, productUrl: res.productUrl, user: currentUser.uid };
         await db.collection('projects').doc(res.id).set(data);
 
         await router.push('/');

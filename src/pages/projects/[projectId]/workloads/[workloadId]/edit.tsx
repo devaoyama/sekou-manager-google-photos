@@ -44,7 +44,6 @@ const Create = () => {
             .doc(workloadId.toString())
             .get()
             .then(doc => {
-                console.log(doc.data());
                 setWorkload(doc.data());
             })
         ;
