@@ -37,6 +37,16 @@ const Index = () => {
                         </ListItemText>
                     </ListItem>
                 </Link>
+                <Link href="/projects/[projectId]/edit" as={`/projects/${projectId}/edit`}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <AddIcon />
+                        </ListItemIcon>
+                        <ListItemText>
+                            プロジェクト編集
+                        </ListItemText>
+                    </ListItem>
+                </Link>
                 <DeleteProjectListItem projectId={projectId} />
             </List>
         </div>
