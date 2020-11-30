@@ -37,9 +37,8 @@ const Create = () => {
 
     const classes = useStyles();
 
-    const handleClick = handleSubmit(async (input) => {
+    const handleClick = handleSubmit(async ({ title, type, builder, start, end }) => {
         if (!accessToken) return;
-        const { title, type, builder, start, end } = input;
 
         const body = {
             album: {
@@ -89,8 +88,8 @@ const Create = () => {
                         required
                         fullWidth
                         margin="normal"
-                        error={!!errors.title}
-                        helperText={errors.title?.message}
+                        error={!!errors.type}
+                        helperText={errors.type?.message}
                     />
                     <TextField
                         type="text"
@@ -103,8 +102,8 @@ const Create = () => {
                         required
                         fullWidth
                         margin="normal"
-                        error={!!errors.title}
-                        helperText={errors.title?.message}
+                        error={!!errors.builder}
+                        helperText={errors.builder?.message}
                     />
                     <TextField
                         type="date"

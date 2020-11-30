@@ -1,6 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
-import { Container, TextField, Button } from "@material-ui/core";
+import NextLink from "next/link";
+import { useForm } from "react-hook-form";
+import {Container, TextField, Button, Link, CircularProgress} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Auth from "../../../../components/Auth";
 import { AuthContext } from "../../../../contexts/Auth";
@@ -9,7 +11,7 @@ import { db } from "../../../../utils/Firebase";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(13),
+        marginTop: theme.spacing(4),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -19,24 +21,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+type TInput = {
+    title: string
+    comment: string
+    images: FileList
+};
+
 const Create = () => {
     const { accessToken } = useContext(AuthContext);
 
-    const [title, setTitle] = useState('');
-
-    const [comment, setComment] = useState('');
-
-    const [image, setImage] = useState(null);
+    const { register, errors, handleSubmit, formState, setError } = useForm<TInput>();
 
     const router = useRouter();
     const { projectId } = router.query;
 
     const classes = useStyles();
 
-    const handleClick = async () => {
+    const handleClick = handleSubmit(async ({ title, comment, images }) => {
         if (!accessToken) return;
 
-        let response = await uploadFile(accessToken, image);
+        if (images[0].type !== 'image/jpeg') {
+            setError('images', {
+                type: 'manual',
+                message: 'JPEGファイル以外はアップロードできません'
+            });
+            return;
+        }
+
+        let response = await uploadFile(accessToken, images[0]);
         const body = {
             albumId: projectId,
             newMediaItems: [{
@@ -61,33 +73,57 @@ const Create = () => {
         ;
 
         await router.push('/projects/[projectId]', `/projects/${projectId}`);
-    };
+    });
 
     return (
         <Auth>
             <Container component="main" maxWidth="xs">
+                <div>
+                    <NextLink href="/projects/[projectId]" as={`/projects/${projectId}`}>
+                        <Link href="">
+                            戻る
+                        </Link>
+                    </NextLink>
+                </div>
                 <div className={classes.paper}>
                     <TextField
+                        name="title"
                         type="text"
                         label="施工名"
-                        value={title}
-                        onChange={event => setTitle(event.target.value)}
+                        inputRef={register({
+                            required: { value: true, message: "空であってはいけません" },
+                            maxLength: { value: 40, message: "40文字以内で入力してください" }
+                        })}
                         fullWidth
                         margin="normal"
+                        error={!!errors.title}
+                        helperText={errors.title?.message}
                     />
                     <TextField
+                        name="comment"
                         type="text"
                         label="コメント"
-                        value={comment}
-                        onChange={event => setComment(event.target.value)}
+                        inputRef={register({
+                            required: { value: true, message: "空であってはいけません" },
+                            maxLength: { value: 40, message: "40文字以内で入力してください" }
+                        })}
                         fullWidth
                         margin="normal"
                         multiline
-                        rows={4}
+                        rows={8}
+                        error={!!errors.comment}
+                        helperText={errors.comment?.message}
                     />
-                    <input
+                    <TextField
+                        name="images"
                         type="file"
-                        onChange={event => setImage(event.target.files[0])}
+                        margin="normal"
+                        inputRef={register({
+                            required: { value: true, message: "ファイルを選択してください" },
+                        })}
+                        fullWidth
+                        error={!!errors.images}
+                        helperText={errors.images?.message}
                     />
                     <Button
                         type="button"
@@ -96,8 +132,11 @@ const Create = () => {
                         fullWidth
                         variant="contained"
                         color="primary"
+                        disabled={formState.isSubmitting}
                     >
-                        作成
+                        {formState.isSubmitting ? (
+                            <CircularProgress color="inherit" size="1.7em" />
+                        ): '作成'}
                     </Button>
                 </div>
             </Container>
