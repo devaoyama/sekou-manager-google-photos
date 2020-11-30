@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Card, CardActionArea, CardContent, CardMedia, makeStyles, Typography } from "@material-ui/core";
+import { Card, CardActionArea, CardContent, CardHeader, makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {
@@ -14,30 +13,33 @@ const useStyles = makeStyles({
 });
 
 type TProps = {
-    album: {
+    project: {
         id: string
         title: string
-        coverPhotoBaseUrl: string
+        type: string
+        builder: string
+        start: string
     }
 };
 
-const ProjectCard: React.FC<TProps> = ({ album }) => {
+const ProjectCard: React.FC<TProps> = ({ project }) => {
     const classes = useStyles();
 
     return (
         <React.Fragment>
             <Card className={classes.root}>
-                <Link href="/projects/[projectId]" as={`/projects/${album.id}`}>
+                <Link href="/projects/[projectId]" as={`/projects/${project.id}`}>
                     <CardActionArea>
-                        <CardMedia
-                            className={classes.media}
-                            title="プロジェクト画像"
-                        >
-                            <Image src={album.coverPhotoBaseUrl} width={1920} height={1024} />
-                        </CardMedia>
+                        <CardHeader
+                            title={project.title}
+                            subheader={project.start + ' 〜'}
+                        />
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {album.title}
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                工種： {project.type}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                工事施工者： {project.builder}
                             </Typography>
                         </CardContent>
                     </CardActionArea>
