@@ -1,6 +1,15 @@
 import React from "react";
 import Link from "next/link";
-import { Card, CardActionArea, CardContent, CardHeader, makeStyles, Typography } from "@material-ui/core";
+import {
+    Button,
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
+    CardHeader,
+    makeStyles,
+    Typography
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {
@@ -19,6 +28,7 @@ type TProps = {
         type: string
         builder: string
         start: string
+        productUrl: string
     }
 };
 
@@ -44,6 +54,11 @@ const ProjectCard: React.FC<TProps> = ({ project }) => {
                         </CardContent>
                     </CardActionArea>
                 </Link>
+                <CardActions>
+                    <Button size="small" color="primary" href={project.productUrl} target="_blank">
+                        Google Photoで開く
+                    </Button>
+                </CardActions>
             </Card>
         </React.Fragment>
     );
