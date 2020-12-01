@@ -42,7 +42,7 @@ const Index = () => {
                             <AddIcon />
                         </ListItemIcon>
                         <ListItemText>
-                            プロジェクト追加
+                            工事追加
                         </ListItemText>
                     </ListItem>
                 </NextLink>
