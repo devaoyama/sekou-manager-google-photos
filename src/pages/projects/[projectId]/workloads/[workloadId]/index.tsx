@@ -102,7 +102,7 @@ const Index = () => {
                 <Card>
                     <CardHeader title={workload ? workload.title : "タイトルなし"} />
                     <CardMedia title="施工画像">
-                        {image && <Image src={image} width={1920} height={1024} />}
+                        {image && <Image src={image} width={1280} height={960} />}
                     </CardMedia>
                     <CardContent>
                         <Typography variant="h6" component="h4" className={classes.body} gutterBottom>

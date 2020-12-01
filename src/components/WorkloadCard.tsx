@@ -10,7 +10,7 @@ const useStyles = makeStyles({
         margin: 'auto',
     },
     media: {
-        maxHeight: 400,
+        maxHeight: 300,
     },
 });
 
@@ -51,7 +51,7 @@ const WorkloadCard: React.FC<TProps> = ({ mediaItem, projectId }) => {
                             className={classes.media}
                             title="施工画像"
                         >
-                            <Image src={mediaItem.baseUrl} width={1920} height={1024} />
+                            <Image src={mediaItem.baseUrl} width={1280} height={960} />
                         </CardMedia>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
