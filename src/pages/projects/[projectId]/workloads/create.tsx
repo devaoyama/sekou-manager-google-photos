@@ -9,6 +9,7 @@ import { AuthContext } from "../../../../contexts/Auth";
 import { postRequest, uploadFile } from "../../../../utils/GooglePhotosApi";
 import { db } from "../../../../utils/Firebase";
 import checkImageAspect from "../../../../utils/checkImageAspect";
+import resizeImage from "../../../../utils/resizeImage";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -57,8 +58,9 @@ const Create = () => {
             });
             return;
         }
+        const image = await resizeImage(images[0]);
 
-        let response = await uploadFile(accessToken, images[0]);
+        let response = await uploadFile(accessToken, image);
         const body = {
             albumId: projectId,
             newMediaItems: [{
