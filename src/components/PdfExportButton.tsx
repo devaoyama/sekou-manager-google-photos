@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 import { db } from "../utils/Firebase";
 
-const PdfExportButton = ({ workloads, projectId }) => {
-    const [project, setProjects] = useState(undefined);
-
-    useEffect(() => {
-        db.collection('projects').doc(projectId).get()
-            .then(doc => {
-                setProjects(doc.data());
-            })
-        ;
-    });
-
-    const handleClick = () => {
-        console.log(project);
+const PdfExportButton = ({ mediaItems, projectId }) => {
+    const handleClick = async () => {
+        const doc = await db.collection('projects').doc(projectId).get();
+        console.log(doc.data());
     };
 
     return (
-        <ListItem button onClick={handleClick}>
+        <ListItem button onClick={handleClick} disabled>
             <ListItemIcon>
                 <PictureAsPdfIcon />
             </ListItemIcon>

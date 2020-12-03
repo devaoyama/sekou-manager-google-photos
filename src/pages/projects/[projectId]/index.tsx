@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const Index = () => {
     const { accessToken } = useContext(AuthContext);
 
-    const [workloads, setWorkLoads] = useState(undefined);
+    const [mediaItems, setMediaItems] = useState(undefined);
 
     const [open, setOpen] = useState(false);
 
@@ -53,7 +53,7 @@ const Index = () => {
         postRequest('mediaItems:search', accessToken, JSON.stringify(body))
             .then(response => {
                 const { mediaItems } = response;
-                setWorkLoads(mediaItems || []);
+                setMediaItems(mediaItems || []);
             })
         ;
     }, [projectId, accessToken]);
@@ -73,7 +73,7 @@ const Index = () => {
                         </ListItemText>
                     </ListItem>
                 </NextLink>
-                <PdfExportButton workloads={workloads} projectId={projectId} />
+                <PdfExportButton mediaItems={mediaItems} projectId={projectId} />
                 <NextLink href="/projects/[projectId]/edit" as={`/projects/${projectId}/edit`}>
                     <ListItem button>
                         <ListItemIcon>
@@ -89,7 +89,7 @@ const Index = () => {
         </div>
     );
 
-    if (workloads === undefined) {
+    if (mediaItems === undefined) {
         return <LoadingOverlay />
     }
 
@@ -104,7 +104,7 @@ const Index = () => {
                     </NextLink>
                     <Typography color="textPrimary">施工一覧</Typography>
                 </Breadcrumbs>
-                <WorkloadsList workloads={workloads} projectId={projectId} />
+                <WorkloadsList mediaItems={mediaItems} projectId={projectId} />
             </Container>
             <Fab color="primary" className={classes.fab} onClick={() => setOpen(true)}>
                 <ExpandLessIcon />
