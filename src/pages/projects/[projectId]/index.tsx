@@ -21,6 +21,7 @@ import DeleteProjectListItem from "../../../components/DeleteProjectListItem";
 import {postRequest} from "../../../utils/GooglePhotosApi";
 import {AuthContext} from "../../../contexts/Auth";
 import LoadingOverlay from "../../../components/LoadingOverlay";
+import PdfExportButton from "../../../components/PdfExportButton";
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -72,6 +73,7 @@ const Index = () => {
                         </ListItemText>
                     </ListItem>
                 </NextLink>
+                <PdfExportButton workloads={workloads} projectId={projectId} />
                 <NextLink href="/projects/[projectId]/edit" as={`/projects/${projectId}/edit`}>
                     <ListItem button>
                         <ListItemIcon>
