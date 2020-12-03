@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 type TInput = {
     title: string
-    type: string
+    place: string
     builder: string
     start: string
     end: string
@@ -47,10 +47,9 @@ const Edit = () => {
         ;
     }, []);
 
-    const handleClick = handleSubmit(async (input) => {
-        const { title, type, builder, start, end } = input;
+    const handleClick = handleSubmit(async ({ title, place, builder, start, end }) => {
 
-        const data = { title, type, builder, start, end };
+        const data = { title, place, builder, start, end };
         await db.collection('projects').doc(projectId.toString()).update(data);
 
         await router.push(`/projects/${projectId}`);
@@ -88,8 +87,8 @@ const Edit = () => {
                     />
                     <TextField
                         type="text"
-                        name="type"
-                        label="工種"
+                        name="place"
+                        label="工事場所"
                         inputRef={register({
                             required: { value: true, message: "空であってはいけません" },
                             maxLength: { value: 40, message: "40文字以内で入力してください" }
@@ -97,9 +96,9 @@ const Edit = () => {
                         required
                         fullWidth
                         margin="normal"
-                        error={!!errors.title}
-                        helperText={errors.title?.message}
-                        defaultValue={project.type}
+                        error={!!errors.place}
+                        helperText={errors.place?.message}
+                        defaultValue={project.place}
                     />
                     <TextField
                         type="text"
@@ -112,8 +111,8 @@ const Edit = () => {
                         required
                         fullWidth
                         margin="normal"
-                        error={!!errors.title}
-                        helperText={errors.title?.message}
+                        error={!!errors.builder}
+                        helperText={errors.builder?.message}
                         defaultValue={project.builder}
                     />
                     <TextField
