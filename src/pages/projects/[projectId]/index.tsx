@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import {
@@ -17,6 +17,9 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import Auth from "../../../components/Auth";
 import WorkloadsList from "../../../components/WorkloadsList";
 import DeleteProjectListItem from "../../../components/DeleteProjectListItem";
+import {postRequest} from "../../../utils/GooglePhotosApi";
+import {AuthContext} from "../../../contexts/Auth";
+import LoadingOverlay from "../../../components/LoadingOverlay";
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -30,10 +33,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Index = () => {
+    const { accessToken } = useContext(AuthContext);
+
+    const [workloads, setWorkLoads] = useState(undefined);
+
     const [open, setOpen] = useState(false);
 
     const router = useRouter();
     const { projectId } = router.query;
+
+    useEffect(() => {
+        if (!accessToken || !projectId) return;
+
+        const body = {
+            albumId: projectId
+        };
+        postRequest('mediaItems:search', accessToken, JSON.stringify(body))
+            .then(response => {
+                const { mediaItems } = response;
+                setWorkLoads(mediaItems || []);
+            })
+        ;
+    }, [projectId, accessToken]);
 
     const classes = useStyles();
 
@@ -65,6 +86,10 @@ const Index = () => {
         </div>
     );
 
+    if (workloads === undefined) {
+        return <LoadingOverlay />
+    }
+
     return (
         <Auth>
             <Container maxWidth="md">
@@ -76,7 +101,7 @@ const Index = () => {
                     </NextLink>
                     <Typography color="textPrimary">施工一覧</Typography>
                 </Breadcrumbs>
-                <WorkloadsList />
+                <WorkloadsList workloads={workloads} projectId={projectId} />
             </Container>
             <Fab color="primary" className={classes.fab} onClick={() => setOpen(true)}>
                 <ExpandLessIcon />
