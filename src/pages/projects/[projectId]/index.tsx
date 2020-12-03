@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import EditIcon from '@material-ui/icons/Edit';
 import Auth from "../../../components/Auth";
 import WorkloadsList from "../../../components/WorkloadsList";
 import DeleteProjectListItem from "../../../components/DeleteProjectListItem";
@@ -74,7 +75,7 @@ const Index = () => {
                 <NextLink href="/projects/[projectId]/edit" as={`/projects/${projectId}/edit`}>
                     <ListItem button>
                         <ListItemIcon>
-                            <AddIcon />
+                            <EditIcon />
                         </ListItemIcon>
                         <ListItemText>
                             プロジェクト編集
