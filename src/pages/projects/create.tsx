@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 type TInput = {
     title: string
-    type: string
+    place: string
     builder: string
     start: string
     end: string
@@ -37,7 +37,7 @@ const Create = () => {
 
     const classes = useStyles();
 
-    const handleClick = handleSubmit(async ({ title, type, builder, start, end }) => {
+    const handleClick = handleSubmit(async ({ title, place, builder, start, end }) => {
         if (!accessToken) return;
 
         const body = {
@@ -46,7 +46,7 @@ const Create = () => {
             }
         };
         const res = await postRequest('albums', accessToken, JSON.stringify(body));
-        const data = { title, type, builder, start, end, albumId: res.id, productUrl: res.productUrl, user: currentUser.uid };
+        const data = { title, place, builder, start, end, albumId: res.id, productUrl: res.productUrl, user: currentUser.uid };
         await db.collection('projects').doc(res.id).set(data);
 
         await router.push('/');
@@ -79,8 +79,8 @@ const Create = () => {
                     />
                     <TextField
                         type="text"
-                        name="type"
-                        label="工種"
+                        name="place"
+                        label="工事場所"
                         inputRef={register({
                             required: { value: true, message: "空であってはいけません" },
                             maxLength: { value: 40, message: "40文字以内で入力してください" }
@@ -88,8 +88,8 @@ const Create = () => {
                         required
                         fullWidth
                         margin="normal"
-                        error={!!errors.type}
-                        helperText={errors.type?.message}
+                        error={!!errors.place}
+                        helperText={errors.place?.message}
                     />
                     <TextField
                         type="text"
