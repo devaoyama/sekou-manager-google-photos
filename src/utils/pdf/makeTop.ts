@@ -1,10 +1,7 @@
 import template from "./template/top";
 import make from "./make";
-import { db } from "../Firebase";
 
-const makeTop = async (projectId: string): Promise<Uint8Array> => {
-    const doc = await db.collection('projects').doc(projectId).get();
-    const project: any = doc.data();
+const makeTop = async (project: any): Promise<Uint8Array> => {
     const start = project.start ? new Date(project.start) : null;
     const end = project.end ? new Date(project.end) : null;
 
