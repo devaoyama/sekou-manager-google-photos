@@ -8,7 +8,7 @@ export default async function handler(req: NowRequest, res: NowResponse) {
     // カレントディレクトリ
     const path = process.cwd();
     // ファイル名の一覧
-    const filenames = fs.readdirSync(path);
+    const filenames = fs.readdirSync(path + '/.next');
     console.log(filenames);
 
     const body = JSON.parse(req.body);
