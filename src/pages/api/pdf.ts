@@ -6,11 +6,11 @@ import fs from "fs";
 
 export default async function handler(req: NowRequest, res: NowResponse) {
     let path = process.cwd();
-    let filenames = fs.readdirSync(path + '/.next');
+    let filenames = fs.readdirSync(path + '/../');
     console.log(filenames);
 
     path = process.cwd();
-    filenames = fs.readdirSync(path + '/.next/serverless');
+    filenames = fs.readdirSync(path + '/.next/serverless/pages');
     console.log(filenames);
 
     const body = JSON.parse(req.body);
