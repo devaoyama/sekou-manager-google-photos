@@ -5,10 +5,12 @@ import merge from "../../utils/pdf/merge";
 import fs from "fs";
 
 export default async function handler(req: NowRequest, res: NowResponse) {
-    // カレントディレクトリ
-    const path = process.cwd();
-    // ファイル名の一覧
-    const filenames = fs.readdirSync(path + '/.next');
+    let path = process.cwd();
+    let filenames = fs.readdirSync(path + '/.next');
+    console.log(filenames);
+
+    path = process.cwd();
+    filenames = fs.readdirSync(path + '/.next/serverless');
     console.log(filenames);
 
     const body = JSON.parse(req.body);
