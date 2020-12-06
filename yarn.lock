@@ -3535,7 +3535,7 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-pdf-lib@^1.9.0:
+pdf-lib@^1.12.0, pdf-lib@^1.9.0:
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/pdf-lib/-/pdf-lib-1.12.0.tgz#e67f3e9f6287b9a2be2422cbd3871ec3e83e39fc"
   integrity sha512-5gqG/w8QMhl/NfzqqIt1WddVHnW3kr+J/2LadP3GT0jAdGKoB0l4h/C4pzzK40b0AlBe2fr1Mvo9ZfR24set5A==
