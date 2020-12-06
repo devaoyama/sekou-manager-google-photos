@@ -24,13 +24,15 @@ const PdfExportButton = ({ mediaItems, projectId }) => {
             body: JSON.stringify({ data, project })
         };
         const response = await fetch('/api/pdf', requestInit);
-        const jsonURL = window.URL.createObjectURL(await response.blob());
-        const link = document.createElement('a');
-        document.body.appendChild(link);
-        link.href = jsonURL;
-        link.setAttribute('download', `${project.title}.pdf`);
-        link.click();
-        document.body.removeChild(link);
+        if (response.status === 200) {
+            const jsonURL = window.URL.createObjectURL(await response.blob());
+            const link = document.createElement('a');
+            document.body.appendChild(link);
+            link.href = jsonURL;
+            link.setAttribute('download', `${project.title}.pdf`);
+            link.click();
+            document.body.removeChild(link);
+        }
         setLoading(false);
     };
 
