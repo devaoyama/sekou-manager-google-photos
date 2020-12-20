@@ -1,9 +1,44 @@
-## Getting Started
+# 施工管理アプリ with Google photos api
 
-First, run the development server:
+## 使用技術
 
-```bash
-yarn dev
+- Typescript
+  - React
+  - Next.js
+  - material ui
+- Firebase
+  - Authenticate
+  - Firestore
+- Google api
+  - google photos api
+
+## セットアップ（開発環境）
+
+### git clone
+
+```
+git clone https://github.com/devkeita/kintai-bot.git
+
+cd kintai-bot
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### パッケージインストール
+
+```
+yarn install
+```
+
+### 環境変数設定
+
+開発環境用の環境変数`.env.local`ファイルを作成
+
+```
+cp .env .env.local
+```
+Firebaseの設定を諸々、、、
+
+### ローカルサーバー立ち上げ
+
+```
+yarn dev
+```
